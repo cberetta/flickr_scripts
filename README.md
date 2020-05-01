@@ -1,2 +1,6 @@
 # flickr_scripts
-Some flickr script
+A collection of scripts for Flickr (https://www.flickr.com/)
+
+## Requirements
+- https://github.com/sybrenstuvel/flickrapi
+
