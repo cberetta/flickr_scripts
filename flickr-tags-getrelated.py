@@ -59,63 +59,67 @@ class RelatedTags():
 
 		# Check user response
 		_related_tags=[]
-		if self.getphotocount:
 
-			print "Requesting photo count for each tag..."
+		# If we have some results
+		if len(rel_tags) > 0:
 
-			# For each tag look how many photos are available
-			for rel_tag in rel_tags:
+			if self.getphotocount:
 
-				# Init
-				photo_count=0
+				print "Requesting photo count for each tag..."
 
-				# Search photos with the tag
-				flickr_response = self._flickr.photos.search(
-					tags=rel_tag,
-					sort='relevace',
-					per_page=1,
-					page=1
-					)
+				# For each tag look how many photos are available
+				for rel_tag in rel_tags:
 
-				# Read photo count
-				photo_count = int(flickr_response.find('photos').attrib['total'])
+					# Init
+					photo_count=0
 
-				# Add tuple to list
-				_related_tags.append( (rel_tag, photo_count) )
+					# Search photos with the tag
+					flickr_response = self._flickr.photos.search(
+						tags=rel_tag,
+						sort='relevace',
+						per_page=1,
+						page=1
+						)
 
-		# Sort tuple-list and print them
-		if self.getphotocount:
-			#for t in sorted(_related_tags, reverse=True, key=sortByPhotoCount):
-			#	#print("%s [%d]" % ('{0: <15}'.format(t[0]), t[1]))
-			#	print(" {0: <15}: {1: >10,d}".format(t[0], t[1], grouping=True))
-			num_tags = len(rel_tags)
-			num_cols = 2
-			num_rows = int(num_tags / num_cols)+1
-			sorted_tags = sorted(_related_tags, reverse=True, key=sortByPhotoCount)
-			col_width = max(len(t) for t in rel_tags) + 2
-			for i in range(num_rows):
-				for j in range(num_cols):
-					if i + j*num_rows < num_tags:
-						print("- {0: <{2}}: {1: >10,d}   ".format(
-							sorted_tags[i+j*num_rows][0],
-							sorted_tags[i+j*num_rows][1],
-							col_width)),
-				print
+					# Read photo count
+					photo_count = int(flickr_response.find('photos').attrib['total'])
 
-		else:
-			num_tags = len(rel_tags)
-			num_cols = 3
-			num_rows = int(num_tags / num_cols)+1
-			sorted_tags = sorted(rel_tags, key=sortByTag)
-			col_width = max(len(t) for t in rel_tags) + 2
-			#print("num_tags={}, num_cols={}, num_rows={}".format(num_tags, num_cols, num_rows))
-			for i in range(num_rows):
-				for j in range(num_cols):
-					if i + j*num_rows < num_tags:
-						print("- {0: <{1}}".format(
-							sorted_tags[i+j*num_rows],
-							col_width)),
-				print
+					# Add tuple to list
+					_related_tags.append( (rel_tag, photo_count) )
+
+			# Sort tuple-list and print them
+			if self.getphotocount:
+				#for t in sorted(_related_tags, reverse=True, key=sortByPhotoCount):
+				#	#print("%s [%d]" % ('{0: <15}'.format(t[0]), t[1]))
+				#	print(" {0: <15}: {1: >10,d}".format(t[0], t[1], grouping=True))
+				num_tags = len(rel_tags)
+				num_cols = 2
+				num_rows = int(num_tags / num_cols)+1
+				sorted_tags = sorted(_related_tags, reverse=True, key=sortByPhotoCount)
+				col_width = max(len(t) for t in rel_tags) + 2
+				for i in range(num_rows):
+					for j in range(num_cols):
+						if i + j*num_rows < num_tags:
+							print("- {0: <{2}}: {1: >10,d}   ".format(
+								sorted_tags[i+j*num_rows][0],
+								sorted_tags[i+j*num_rows][1],
+								col_width)),
+					print
+
+			else:
+				num_tags = len(rel_tags)
+				num_cols = 3
+				num_rows = int(num_tags / num_cols)+1
+				sorted_tags = sorted(rel_tags, key=sortByTag)
+				col_width = max(len(t) for t in rel_tags) + 2
+				#print("num_tags={}, num_cols={}, num_rows={}".format(num_tags, num_cols, num_rows))
+				for i in range(num_rows):
+					for j in range(num_cols):
+						if i + j*num_rows < num_tags:
+							print("- {0: <{1}}".format(
+								sorted_tags[i+j*num_rows],
+								col_width)),
+					print
 
 
 
